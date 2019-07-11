@@ -78,6 +78,10 @@ class App extends Component {
       if (check) {
         this.toggle()
         this.viewCourses()
+        this.setState({
+          courseTitle: '',
+          instructor: ''
+        })
       }
     }
     else if (modalCaption === 'Update') {
@@ -99,6 +103,10 @@ class App extends Component {
       if (check) {
         this.toggle()
         this.viewCourses()
+        this.setState({
+          courseTitle: '',
+          instructor: ''
+        })
       }
     }
 
