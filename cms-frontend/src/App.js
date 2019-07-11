@@ -113,7 +113,7 @@ class App extends Component {
   }
   edit(id) {
     const { courses } = this.state;
-    var index = courses.findIndex(x => x.id == id)
+    var index = courses.findIndex(x => x._id == id)
     var course = courses[index]
     this.toggle()
     this.setState({
@@ -145,6 +145,49 @@ class App extends Component {
         this.viewCourses()
       }
     }
+  }
+
+  ascending(){
+    fetch('http://localhost:3030/ascending')
+    .then(response => response.json())
+    .then(json => {
+      if (json.responseDescription != "Processed Ok") {
+        this.setState({
+          viewRes: json.responseDescription
+        })
+      }
+      this.setState({
+        courses: json.data
+      })
+    })
+  }
+  descending(){
+    fetch('http://localhost:3030/descending')
+    .then(response => response.json())
+    .then(json => {
+      if (json.responseDescription != "Processed Ok") {
+        this.setState({
+          viewRes: json.responseDescription
+        })
+      }
+      this.setState({
+        courses: json.data
+      })
+    })
+  }
+  limit(){
+    fetch('http://localhost:3030/limit')
+    .then(response => response.json())
+    .then(json => {
+      if (json.responseDescription != "Processed Ok") {
+        this.setState({
+          viewRes: json.responseDescription
+        })
+      }
+      this.setState({
+        courses: json.data
+      })
+    })
   }
   render() {
     const { courses, modalCaption, viewRes } = this.state;
@@ -183,6 +226,10 @@ class App extends Component {
           </ModalFooter>
         </Modal>
         <Container>
+        <Button color="primary" onClick={this.ascending.bind(this)}>Old to New</Button>{' '}
+        <Button color="secondary" onClick={this.descending.bind(this)}>New to Old</Button>{' '}
+        <Button color="primary" onClick={this.limit.bind(this)}>Top 3</Button>{' '}
+        {/* <Button color="secondary" onClick={this.viewCourses()}>All</Button>{' '} */}
           <Table>
             <thead>
               <tr>
@@ -195,12 +242,12 @@ class App extends Component {
             <tbody>
               {courses && courses.map(element => {
                 return <tr>
-                  <th scope="row">{element.id}</th>
+                  <th scope="row">{element._id}</th>
                   <td>{element.courseTitle}</td>
                   <td>{element.instructor}</td>
                   <td>
-                    <Button color="info" onClick={this.edit.bind(this, element.id)}>Edit</Button>
-                    <Button color="danger" onClick={this.delete.bind(this, element.id)}>Delete</Button>
+                    <Button color="info" onClick={this.edit.bind(this, element._id)}>Edit</Button>
+                    <Button color="danger" onClick={this.delete.bind(this, element._id)}>Delete</Button>
                   </td>
                 </tr>
               })}
